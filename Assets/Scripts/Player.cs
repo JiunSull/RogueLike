@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
+public class Player : MovingObject {
 
 
 	public int wallDamage = 1;
@@ -17,9 +17,9 @@ public class Player : MonoBehaviour {
 	
 	protected override void Start () 
 	{
-		animator = getComponent<Animator>();
+		animator = GetComponent<Animator>();
 		food = GManager.instance.playerFoodPoints;
-		base.Start();	
+		base.Start();
 	}
 
 	private void OnDisable()
@@ -47,15 +47,18 @@ public class Player : MonoBehaviour {
 
 
 
-		if (horizontal != 0 || vertical != 0)
+		if (horizontal != 0 || vertical != 0){
+			Debug.Log("Horizontal: " + horizontal + " Vertical: " + vertical);
 			AttemptMove<Wall> (horizontal, vertical); 
+		}
+			
 	}
 
 	protected override void AttemptMove <T> (int xDir, int yDir)
 	{
 		food--;
 
-		base.AttemptMove <T> (xDir, yDir);
+		base.AttemptMove<T>(xDir, yDir);
 
 		RaycastHit2D hit;
 
@@ -106,7 +109,7 @@ public class Player : MonoBehaviour {
 	{
 		animator.SetTrigger("playerHit");
 		food -= loss;
-		CheckifGameOver();
+		CheckIfGameOver();
 
 	}
 
